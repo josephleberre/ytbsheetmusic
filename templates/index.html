@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheetmusic installer</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='img/musical-notes.png') }}" />
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}"></link>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/cropper.css') }}"></link>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/fonctionnal.css') }}"></link>
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/cropper.js') }}" defer></script>
+</head>
+<body>
+
+    <div id="page1" class="page active">
+
+        <div class="card">
+
+        <form id="upload-form">
+
+            <h1>Youtube Sheetmusic</h1>
+            
+            <div class="form-group">
+                <div class="flex">
+                    <div class="column">
+                    <label for="title">Titre :</label>
+                    <input type="text" id="title" name="title" value="test" required>
+                    </div>
+                    <div class="column fit-content">
+                        <label class="toggle-label" for="settitle">Entête</label>
+                        <label class="toggle-switch">
+                            <input checked type="checkbox" id="settitle" name="settitle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="url" >URL de la vidéo:</label>
+                <input type="text" id="url" name="url" value="https://www.youtube.com/watch?v=0NXI3fSmoGw" required>
+            </div>
+            
+            <div class="form-group" id="menus-deroulants">
+                <label>Paramètres avancés</label>
+                <div class="dropdown-header" id="dropdownHeader">
+                    Échantillonage
+                    <span class="chevron">&#9662;</span>
+                </div>
+                <div class="dropdown-content form-group" id="dropdownContent"> 
+                    <label for="frequency">Fréquence d'échantillonage (0.00-10.00 img/s):</label>
+                    <input type="number"  min="0" max="10" step="0.01" id="frequency" name="frequency" value="0.1" required><br><br>
+                
+                    <label for="threshold">Taux de correspondance (0.00-1.00) :</label>
+                    <input type="number" min="0" max="1" step="0.01" id="threshold" name="threshold" value="0.95" required><br><br>
+                    <p>Rogner (px) :</p>
+                    <div class="flex">
+                        <div class="column">
+                            <label for="cropLeft_ech">Gauche:</label>
+                            <input type="number" value="0" id="cropLeft_ech" name="cropLeft_ech">
+                        </div>
+                        <div class="column">
+                            <label for="cropRight_ech">Droite:</label>
+                            <input type="number" value="0" id="cropRight_ech" name="cropRight_ech">
+                        </div>
+                        <div class="column">
+                            <label for="cropTop_ech">Haut:</label>
+                            <input type="number" value="0" id="cropTop_ech" name="cropTop_ech">
+                        </div>
+                        <div class="column">
+                            <label for="cropBottom_ech">Bas:</label>
+                            <input type="number" value="0" id="cropBottom_ech" name="cropBottom_ech">
+                        </div>
+                        <div class="flex">
+                            <button type="button" id="opencropModalEch"><img width="35" height="35" src="{{ url_for('static',filename='img/cropicon.svg') }}" alt=""></button>
+                        </div>
+                    </div>
+
+                    <div id="cropModalEch" class="modal">
+                        <div class="modal-content">
+                            <span id="closeEch" class="close">&times;</span>
+                            <div class="modal_container">
+                                <img id="imageToCropEch" src="" alt="Image to Crop">  
+                            </div>
+                            <div class="form-group">
+                                <p>Rogner :</p>
+                                <div class="flex">
+                                    <div class="column">
+                                        <label for="cropLeftEch">Gauche:</label>
+                                        <input type="number" id="cropLeftEch"><br>
+                                    </div>
+                                    <div class="column">
+                                        <label for="cropRightEch">Droite:</label>
+                                        <input type="number" id="cropRightEch"><br>
+                                    </div>
+                                    <div class="column">
+                                        <label for="cropTopEch">Haut:</label>
+                                        <input type="number"  id="cropTopEch"><br>
+                                    </div>
+                                    <div class="column">
+                                        <label for="cropBottomEch">Bas:</label>
+                                        <input  type="number" id="cropBottomEch"><br>
+                                    </div>
+                                </div>
+                                <button type="button" id="cropButtonEch">Rogner</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown-header" id="dropdownHeader_">
+                    Pré-mise en page
+                    <span class="chevron">&#9662;</span>
+                </div>
+                <div class="dropdown-content form-group" id="dropdownContent_">
+                    <div class="flex">
+                        <div class="column">
+                            <label for="color">Couleur:</label>
+                            <select id="color" name="color">
+                                <option value="0">Noir et blanc</option>
+                                <option value="1">Teintes de gris</option>
+                                <option value="2">Couleur</option>
+                            </select>
+                        </div>
+                        <div class="column">
+                            <label for="numberimg">Nombre d'images par page :</label>
+                            <select id="numberimg" name="numberimg">
+                                <option value="0" selected>Auto</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="flex">
+                        <div class="column">
+                            <label class="toggle-label" for="numerotation">Numérotation des pages</label>
+                            <label class="toggle-switch">
+                                <input checked type="checkbox" id="numerotation" name="numerotation">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="column">
+                            <label class="toggle-label" for="deformation">Déformer les images</label>
+                            <label class="toggle-switch">
+                                <input checked type="checkbox" id="deformation" name="deformation">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <p>Rogner :</p>
+                    <div class="flex">
+                        <div class="column">
+                            <label for="cropLeft_def">Gauche:</label>
+                            <input type="number" value="0" id="cropLeft_pre" name="cropLeft_pre">
+                        </div>
+                        <div class="column">
+                            <label for="cropRight_def">Droite:</label>
+                            <input type="number" value="0" id="cropRight_pre" name="cropRight_pre">
+                        </div>
+                        <div class="column">
+                            <label for="cropTop_def">Haut:</label>
+                            <input type="number" value="0" id="cropTop_pre" name="cropTop_pre">
+                        </div>
+                        <div class="column">
+                            <label for="cropBottom_def">Bas:</label>
+                            <input type="number" value="0" id="cropBottom_pre" name="cropBottom_pre">
+                        </div>
+                        <div class="flex">
+                            <button  type="button" id="opencropModalPre"><img width="35" height="35" src="{{ url_for('static',filename='img/cropicon.svg') }}" alt=""></button>
+                        </div>
+                    </div>
+
+                    <div id="cropModalPre" class="modal">
+                        <div class="modal-content">
+                            <span id="closePre" class="close">&times;</span>
+                            <div class="modal_container">
+                                <img id="imageToCropPre" src=""  height="auto" width="auto" alt="Image to Crop">  
+                            </div>
+                            <div class="form-group">
+                                <p>Rogner :</p>
+                                <div class="flex">
+                                    <div class="column">
+                                        <label for="cropLeftPre">Gauche:</label>
+                                        <input type="number" id="cropLeftPre"><br>
+                                    </div>
+                                    <div class="column">
+                                        <label for="cropRightPre">Droite:</label>
+                                        <input type="number" id="cropRightPre"><br>
+                                    </div>
+                                    <div class="column">
+                                        <label for="cropTopPre">Haut:</label>
+                                        <input type="number"  id="cropTopPre"><br>
+                                    </div>
+                                    <div class="column">
+                                        <label for="cropBottomPre">Bas:</label>
+                                        <input  type="number" id="cropBottomPre"><br>
+                                    </div>
+                                </div>
+                                <button type="button" id="cropButtonPre">Rogner</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Convertir</button>
+            </div>
+
+            <div class="form-group">
+                <div id="progress-bar">
+                    <div id="progress-bar-fill"></div>
+                </div>
+                <div id="progress-task"></div>
+            </div>
+        </form>
+        
+        </div>
+    </div>
+
+    <div id="page2" class="page">
+
+        <div class="flex page_">
+            
+            <div class="card">
+
+            <div class="card_container">
+
+                <div id="backButton" class="back-button left" onclick="changePage()">
+                    Retour
+                </div>
+                <h1>Youtube Sheetmusic</h1>
+
+                <h3>Mise en page</h3>
+
+                <div class="form-group">
+                    <div class="flex">
+                        <div class="column">
+                        <label for="title_">Titre :</label>
+                        <input onchange="actualise_pdf()" type="text" id="title_" name="title_" value="test" required>
+                        </div>
+                        <div class="column fit-content">
+                            <label class="toggle-label" for="settitle_">Entête</label>
+                            <label class="toggle-switch">
+                                <input onchange="actualise_pdf()" type="checkbox" id="settitle_" name="settitle_">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="column">
+                            <label for="color_">Couleur:</label>
+                            <select onchange="actualise_pdf()" id="color_" name="color_">
+                                <option value="0">Noir et blanc</option>
+                                <option value="1">Teintes de gris</option>
+                                <option value="2">Couleur</option>
+                            </select>
+                        </div>
+                        <div class="column">
+                            <label for="numberimg_">Nombre d'images par page :</label>
+                            <select onchange="actualise_pdf()" id="numberimg_" name="numberimg_">
+                                <option value="0">Auto</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
+                    </div>
+                <div class="flex">
+                    <div class="column">
+                        <label class="toggle-label" for="numerotation_">Numérotation en bas de page</label>
+                        <label class="toggle-switch">
+                            <input onchange="actualise_pdf()" type="checkbox" id="numerotation_" name="numerotation_">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="column">
+                        <label class="toggle-label" for="'deformation_">Etendre les images</label>
+                        <label class="toggle-switch">
+                            <input onchange="actualise_pdf()" type="checkbox" id="deformation_" name="deformation_">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                </div>
+                    <h3>Ajuster les vignettes</h3>
+                    
+                    <div class="form-group">
+                        <p>Selectionner les vignettes indésirables</p>
+                        <div id="framescontainer">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <p>Rogner :</p>
+                        <div class="flex">
+                        <div class="column">
+                            <label for="cropLeft_def">Gauche:</label>
+                            <input type="number" value="0" id="cropLeft_def" readonly>
+                        </div>
+                        <div class="column">
+                            <label for="cropRight_def">Droite:</label>
+                            <input type="number" value="0" id="cropRight_def">
+                        </div>
+                        <div class="column">
+                            <label for="cropTop_def">Haut:</label>
+                            <input type="number" value="0" id="cropTop_def">
+                        </div>
+                        <div class="column">
+                            <label for="cropBottom_def">Bas:</label>
+                            <input type="number" value="0" id="cropBottom_def">
+                        </div>
+                        <div class="flex">
+                            <button id="opencropModalDef"><img width="35" height="35" src="{{ url_for('static',filename='img/cropicon.svg') }}" alt=""></button>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div id="cropModalDef" class="modal">
+                        <div class="modal-content">
+                            <span id="closeDef" class="close">&times;</span>
+                            <div class="modal_container">
+                                <img id="imageToCropDef" src="/img/1?ts=00"  height="auto" width="auto" alt="Image to Crop">  
+                            </div>
+                            <div class="form-group">
+                                <p>Rogner</p>
+                                <div class="flex">
+                                    <div class="column">
+                                        <label for="cropLeftDef">Gauche:</label>
+                                        <input type="number" id="cropLeftDef"><br>
+                                    </div>
+                                    <div class="column">
+                                        <label for="cropRightDef">Droite:</label>
+                                        <input type="number" id="cropRightDef"><br>
+                                    </div>
+                                    <div class="column">
+                                        <label for="cropTopDef">Haut:</label>
+                                        <input type="number"  id="cropTopDef"><br>
+                                    </div>
+                                    <div class="column">
+                                        <label for="cropBottomDef">Bas:</label>
+                                        <input  type="number" id="cropBottomDef"><br>
+                                    </div>
+                                </div>
+                                <button type="button" id="cropButtonDef">Rogner</button>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Télécharger les fichiers</h3>
+                    <div class="form-group">
+                        <div id="download-buttons">
+                            <div class="flex flex-start">
+                                <button id="pdf-download" onclick="location.href='/download/pdf';">PDF</button>
+                                <button id="mp3-download" onclick="location.href='/download/mp3';">MP3</button>
+                                <button id="frames-download" onClick="downloadFrames()">Vignettes</button>
+                                <button id="zip-download" onclick="location.href='/download/zip';">ZIP</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card pdf">
+                <embed id="pdfviewer" src="/pdf/" width="100%" height="auto" type="application/pdf"/>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
