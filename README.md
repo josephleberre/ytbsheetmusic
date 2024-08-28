@@ -24,6 +24,7 @@
 ```bash
 git clone https://github.com/josephleberre/ytbsheetmusic.git
 cd ytbsheetmusic
+```
 
 ### Install Dependencies
 
@@ -31,6 +32,8 @@ Install the required dependencies using pip:
 
 ```bash
 pip install -r requirements.txt
+```
+
 Configuration
 Before starting the application, make sure to configure any necessary environment variables in a .env file if needed.
 
@@ -40,6 +43,7 @@ Run the application with the following command:
 
 ```bash
 python app.py
+```
 Access the Interface:
 Open your web browser and go to http://localhost:5000.
 
