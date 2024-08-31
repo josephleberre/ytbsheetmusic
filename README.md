@@ -16,7 +16,7 @@
 
 ### Prerequisites
 
-- Python 3.7 or later
+- Python 3.9 or later
 - `pip` for Python package management
 
 ### Clone the Repository
@@ -44,8 +44,6 @@ Run the application with the following command:
 ```bash
 python app.py
 ```
-Access the Interface:
-Open your web browser and go to http://localhost:5000.
 
 ### Download and Convert:
 
