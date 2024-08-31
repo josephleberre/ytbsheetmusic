@@ -5,11 +5,16 @@ import cv2 as cv
 from fpdf import FPDF
 from moviepy.editor import VideoFileClip
 from skimage.metrics import structural_similarity as ssim
-import os, zipfile, io
+import os, sys, zipfile, io
 from math import floor
 from flask import jsonify
 
 #VARIABLES GLOBALES
+
+if getattr(sys, 'frozen', False):
+    BASE_DIR = sys._MEIPASS
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 folder_path = None
 video_filename = None
@@ -30,8 +35,8 @@ def extract_video_id(url):
     return match.group(1) if match else None
 
 def clean_old_directories(new_dir_prefix, base_path, current_folder):
-    for item in os.listdir(base_path):
-        item_path = os.path.join(base_path, item)
+    for item in os.listdir(os.path.join(BASE_DIR, base_path)):
+        item_path = os.path.join(BASE_DIR, base_path, item)
         if item.startswith(new_dir_prefix) and os.path.isdir(item_path) and item != current_folder:
             for root, dirs, files in os.walk(item_path, topdown=False):
                 for name in files:
@@ -50,7 +55,8 @@ def video_download(link):
 
     base_path = 'static/run'
     folder_name = f"sm_{video_id}"
-    folder_path = os.path.join(base_path, folder_name)
+    folder_path = os.path.join(BASE_DIR, base_path, folder_name)
+    
 
     # Ensure folder exists
     if not os.path.exists(folder_path):
@@ -87,7 +93,7 @@ def generate_thumbnail(video_url):
 
     base_path = 'static/run'
     folder_name = f"sm_{video_id}"
-    folder_path = os.path.join(base_path, folder_name)
+    folder_path = os.path.join(BASE_DIR, base_path, folder_name)
     thumbnail_path = os.path.join(folder_path, f"{video_id}_thumbnail.jpg")
 
     # Ensure folder exists
@@ -95,7 +101,7 @@ def generate_thumbnail(video_url):
         os.makedirs(folder_path)
 
     if os.path.exists(thumbnail_path):
-        return jsonify({"thumbnailUrl": f"/static/{os.path.relpath(thumbnail_path, start='static').replace(os.sep, '/')}"})
+        return jsonify({"thumbnailUrl": f"{base_path}/{folder_name}/{video_id}_thumbnail.jpg"})
 
     clean_old_directories("sm_", base_path, folder_name)
 
@@ -132,7 +138,7 @@ def generate_thumbnail(video_url):
         return jsonify({"error": "Impossible de lire le frame de la vidéo", "thumbnailUrl": "/static/img/problem.png"}), 500
     
     cv.imwrite(thumbnail_path, frame)
-    return jsonify({"thumbnailUrl": f"/static/{os.path.relpath(thumbnail_path, start='static').replace(os.sep, '/')}"})
+    return jsonify({"thumbnailUrl": f"{base_path}/{folder_name}/{video_id}_thumbnail.jpg"})
 
 
 #CONVERT VIDEO INTO A LIST OF FRAMES
@@ -297,6 +303,7 @@ def save_images_as_pdf(image_files, output_pdf, numberpage, deformation, title, 
 
 
         pdf.image(img_file, x_offset, y_offset, fit_width, fit_height)
+        print(folder_path)
 
         if numberpage == "on" or numberpage == True:
             pdf.set_y(283)
@@ -315,6 +322,7 @@ def extract_audio(title):
 
     # Vérifier si des fichiers MP3 existent déjà dans le dossier
     existing_mp3_files = [f for f in os.listdir(folder_path) if f.endswith(".mp3")]
+    print(folder_path)
 
     if existing_mp3_files:
         # Remplacer les fichiers existants par le nouveau nom
@@ -357,6 +365,7 @@ def create_zip(title):
 
 def create_frameszip(title, selectedframesid, color, imgcrop):
     global folder_path
+    print(folder_path)
 
     for file in os.listdir(folder_path):
         if file.endswith(".zip"):

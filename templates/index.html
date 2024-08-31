@@ -10,6 +10,7 @@
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/fonctionnal.css') }}"></link>
     <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/cropper.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/pdfviewer.js') }}"></script>
 </head>
 <body>
 
@@ -24,11 +25,17 @@
             <div class="form-group">
                 <div class="flex">
                     <div class="column">
-                    <label for="title">Titre :</label>
-                    <input type="text" id="title" name="title" value="test" required>
+                    <label for="title">
+                        <span class="tooltip" data-tooltip="Titre de la partition et des fichiers générés." data-tooltip-pos="right" data-tooltip-length="large">
+                        Titre :
+                    </span></label>
+                    <input type="text" id="title" name="title" value="" required>
                     </div>
                     <div class="column fit-content">
-                        <label class="toggle-label" for="settitle">Entête</label>
+                        <label class="toggle-label" for="settitle">
+                            <span class="tooltip" data-tooltip="Afficher le titre en haut de la première page de la partition." data-tooltip-pos="right" data-tooltip-length="large">
+                            Entête
+                        </span></label>
                         <label class="toggle-switch">
                             <input checked type="checkbox" id="settitle" name="settitle">
                             <span class="slider"></span>
@@ -37,8 +44,11 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="url" >URL de la vidéo:</label>
-                <input type="text" id="url" name="url" value="https://www.youtube.com/watch?v=0NXI3fSmoGw" required>
+                <label for="url" >
+                    <span class="tooltip" data-tooltip="URL Youtube ou Vimeo de la partition vidéo(https://...)" data-tooltip-pos="right" data-tooltip-length="large">
+                        URL de la vidéo:
+                    </span></label>
+                <input type="text" id="url" name="url" value="" required>
             </div>
             
             <div class="form-group" id="menus-deroulants">
@@ -48,12 +58,20 @@
                     <span class="chevron">&#9662;</span>
                 </div>
                 <div class="dropdown-content form-group" id="dropdownContent"> 
-                    <label for="frequency">Fréquence d'échantillonage (0.00-10.00 img/s):</label>
-                    <input type="number"  min="0" max="10" step="0.01" id="frequency" name="frequency" value="0.1" required><br><br>
+                    <label for="frequency">
+                        <span class="tooltip" data-tooltip="Nombre d'image(s) prélevée(s) toutes les secondes pour être analysées. Plus la valeur est élevée, plus le traitement sera long." data-tooltip-pos="right" data-tooltip-length="large">
+                            Fréquence d'échantillonage (0.00-10.00 img/s):
+                    </span></label>
+                    <input type="number"  min="0" max="10" step="0.01" id="frequency" name="frequency" value="0.5" required><br><br>
                 
-                    <label for="threshold">Taux de correspondance (0.00-1.00) :</label>
+                    <label for="threshold">
+                        <span class="tooltip" data-tooltip="Taux de correspondance entre deux frames en dessous duquel une nouvelle partie de la partition est détectée. Valeur conseillée : entre 80 et 98" data-tooltip-pos="right" data-tooltip-length="large">
+                            Taux de correspondance (0.00-1.00) :
+                        </span></label>
                     <input type="number" min="0" max="1" step="0.01" id="threshold" name="threshold" value="0.95" required><br><br>
-                    <p>Rogner (px) :</p>
+                    <p><span class="tooltip" data-tooltip="Partie de la vidéo à analyser pour détecter une nouvelle partie de la partition. Elle ne change pas le visuel du PDF." data-tooltip-pos="right" data-tooltip-length="large">
+                        Rogner (px) :
+                    </span></p>
                     <div class="flex">
                         <div class="column">
                             <label for="cropLeft_ech">Gauche:</label>
@@ -115,7 +133,10 @@
                 <div class="dropdown-content form-group" id="dropdownContent_">
                     <div class="flex">
                         <div class="column">
-                            <label for="color">Couleur:</label>
+                            <label for="color">
+                                <span class="tooltip" data-tooltip="Coloration de la partition. Le noir et blanc peut détériorer la qualité d'image." data-tooltip-pos="right" data-tooltip-length="large">
+                                    Couleur:
+                            </span></label>
                             <select id="color" name="color">
                                 <option value="0">Noir et blanc</option>
                                 <option value="1">Teintes de gris</option>
@@ -123,7 +144,10 @@
                             </select>
                         </div>
                         <div class="column">
-                            <label for="numberimg">Nombre d'images par page :</label>
+                            <label for="numberimg">
+                                <span class="tooltip" data-tooltip="Nombre de frames affichées sur une page du PDF." data-tooltip-pos="right" data-tooltip-length="large">
+                                    Nombre d'images par page :
+                                </span></label>
                             <select id="numberimg" name="numberimg">
                                 <option value="0" selected>Auto</option>
                                 <option value="1">1</option>
@@ -147,21 +171,29 @@
                     <br>
                     <div class="flex">
                         <div class="column">
-                            <label class="toggle-label" for="numerotation">Numérotation des pages</label>
+                            <label class="toggle-label" for="numerotation">
+                            <span class="tooltip" data-tooltip="Présence du numéro de page en bas de page." data-tooltip-pos="right" data-tooltip-length="large">
+                                    Numérotation des pages
+                            </span></label>
                             <label class="toggle-switch">
                                 <input checked type="checkbox" id="numerotation" name="numerotation">
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="column">
-                            <label class="toggle-label" for="deformation">Déformer les images</label>
+                            <label class="toggle-label" for="deformation">
+                            <span class="tooltip" data-tooltip="Déformer les vignettes pour qu'elles occupent l'intégralité de la page." data-tooltip-pos="right" data-tooltip-length="large">
+                                Déformer les images
+                            </span></label>
                             <label class="toggle-switch">
                                 <input checked type="checkbox" id="deformation" name="deformation">
                                 <span class="slider"></span>
                             </label>
                         </div>
                     </div>
-                    <p>Rogner :</p>
+                    <p><span class="tooltip" data-tooltip="Partie des images qui sera affichée sur le PDF." data-tooltip-pos="right" data-tooltip-length="large">
+                        Rogner :
+                   </span></p>
                     <div class="flex">
                         <div class="column">
                             <label for="cropLeft_def">Gauche:</label>
@@ -250,11 +282,17 @@
                 <div class="form-group">
                     <div class="flex">
                         <div class="column">
-                        <label for="title_">Titre :</label>
+                        <label for="title_"> 
+                        <span class="tooltip" data-tooltip="Titre de la partition et des fichiers générés." data-tooltip-pos="right" data-tooltip-length="large">
+                            Titre :
+                        </span></label>
                         <input onchange="actualise_pdf()" type="text" id="title_" name="title_" value="test" required>
                         </div>
                         <div class="column fit-content">
-                            <label class="toggle-label" for="settitle_">Entête</label>
+                            <label class="toggle-label" for="settitle_">
+                            <span class="tooltip" data-tooltip="Afficher le titre en haut de la première page de la partition." data-tooltip-pos="right" data-tooltip-length="large">
+                                Entête
+                            </span></label>
                             <label class="toggle-switch">
                                 <input onchange="actualise_pdf()" type="checkbox" id="settitle_" name="settitle_">
                                 <span class="slider"></span>
@@ -263,7 +301,10 @@
                     </div>
                     <div class="flex">
                         <div class="column">
-                            <label for="color_">Couleur:</label>
+                            <label for="color_">
+                            <span class="tooltip" data-tooltip="Coloration de la partition. Le noir et blanc peut détériorer la qualité d'image." data-tooltip-pos="right" data-tooltip-length="large">
+                                Couleur:
+                            </span></label>
                             <select onchange="actualise_pdf()" id="color_" name="color_">
                                 <option value="0">Noir et blanc</option>
                                 <option value="1">Teintes de gris</option>
@@ -271,7 +312,10 @@
                             </select>
                         </div>
                         <div class="column">
-                            <label for="numberimg_">Nombre d'images par page :</label>
+                            <label for="numberimg_">
+                            <span class="tooltip" data-tooltip="Nombre de frames affichées sur une page du PDF." data-tooltip-pos="right" data-tooltip-length="large">
+                                Nombre d'images par page :
+                            </span></label></label>
                             <select onchange="actualise_pdf()" id="numberimg_" name="numberimg_">
                                 <option value="0">Auto</option>
                                 <option value="1">1</option>
@@ -294,14 +338,20 @@
                     </div>
                 <div class="flex">
                     <div class="column">
-                        <label class="toggle-label" for="numerotation_">Numérotation en bas de page</label>
+                        <label class="toggle-label" for="numerotation_">
+                        <span class="tooltip" data-tooltip="Présence du numéro de page en bas de page." data-tooltip-pos="right" data-tooltip-length="large">
+                            Numérotation des pages
+                        </span></label>
                         <label class="toggle-switch">
                             <input onchange="actualise_pdf()" type="checkbox" id="numerotation_" name="numerotation_">
                             <span class="slider"></span>
                         </label>
                     </div>
                     <div class="column">
-                        <label class="toggle-label" for="'deformation_">Etendre les images</label>
+                        <label class="toggle-label" for="'deformation_">
+                        <span class="tooltip" data-tooltip="Déformer les vignettes pour qu'elles occupent l'intégralité de la page." data-tooltip-pos="right" data-tooltip-length="large">
+                            Déformer les images
+                        </span></label>
                         <label class="toggle-switch">
                             <input onchange="actualise_pdf()" type="checkbox" id="deformation_" name="deformation_">
                             <span class="slider"></span>
@@ -312,14 +362,18 @@
                     <h3>Ajuster les vignettes</h3>
                     
                     <div class="form-group">
-                        <p>Selectionner les vignettes indésirables</p>
+                        <p><span class="tooltip" data-tooltip="Les vignettes sélectionnées n'apparaitront pas sur le PDF" data-tooltip-pos="right" data-tooltip-length="large">
+                            Selectionner les vignettes indésirables
+                        </span></p>
                         <div id="framescontainer">
 
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <p>Rogner :</p>
+                        <p><span class="tooltip" data-tooltip="Partie des images qui sera affichée sur le PDF." data-tooltip-pos="right" data-tooltip-length="large">
+                            Rogner :
+                       </span></p>
                         <div class="flex">
                         <div class="column">
                             <label for="cropLeft_def">Gauche:</label>
@@ -388,7 +442,7 @@
             </div>
 
             <div class="card pdf">
-                <embed id="pdfviewer" src="/pdf/" width="100%" height="auto" type="application/pdf"/>
+                <div id="pdfviewer" src="/pdf/" width="100%" height="auto"></div>
             </div>
         </div>
     </div>

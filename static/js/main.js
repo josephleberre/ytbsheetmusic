@@ -174,6 +174,10 @@ form.onsubmit = function(event) {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/traitement/", true);
 
+    if(document.getElementsByClassName("back-button")[1]){
+        document.getElementsByClassName("back-button")[0].remove()
+    }
+
     // Gestion de la progression
     xhr.onprogress = function(event) {
         if (event.lengthComputable) {
@@ -220,7 +224,7 @@ form.onsubmit = function(event) {
                 progressBarFill.textContent = 'Traitement terminé !';
                 progressTask.textContent = 'Traitement terminé !';
                 const timestamp = new Date().getTime();
-                pdfviewer.src = `/pdf/?ts=${timestamp}`;
+                PDFObject.embed("/pdf/?ts=${timestamp}", "#pdfviewer");
                 downloadButtons.style.display = 'block';
                 changePage()
                 if(!document.getElementsByClassName("back-button")[1]){
@@ -265,7 +269,7 @@ function actualise_pdf(){
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             const timestamp = new Date().getTime();
-            document.getElementById('pdfviewer').src = `/pdf/?ts=${timestamp}`;
+            PDFObject.embed("/pdf/?ts=${timestamp}", "#pdfviewer");
         } else {
             console.error("Request failed");
         }

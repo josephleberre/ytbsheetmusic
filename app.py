@@ -1,10 +1,12 @@
 from flask import Flask, stream_with_context, render_template, Response, request, make_response, send_file, session, jsonify
+from flaskwebgui import FlaskUI
 import sheetmusicfromytb as sm
 import os
 import numpy as np
 
+
 #INITIALISATION
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./static', template_folder='./templates')
 app.secret_key = "25f2fc511531d5bbfb0685224ccd7ac81863fec116de16b1ab3c8bbd39218f88"
 
 #GESTIONS DES PAGES ET DES REQUETES
@@ -73,6 +75,7 @@ def download_file(filename):
 
 @app.route('/pdf/')
 def get_pdf():
+    print(session['title'])
     try:
         return send_file(f"{sm.get_folderpath()}/{sm.get_valid_filename(session['title'])}.pdf", as_attachment=False, mimetype='application/pdf')
     except Exception as e:
@@ -111,4 +114,4 @@ def thumbnail():
         return jsonify({"error": "URL manquante", "thumbnailUrl": "/static/img/problem.png"}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
+    FlaskUI(app=app, server="flask").run()
