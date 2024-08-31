@@ -5,7 +5,6 @@ datas = [
     ("static/js", "static/js"),
     ("static/styles", "static/styles"),
     ("static/run", "static/run"),
-    ("tmp", "tmp"),
     ("templates", "templates")
 ]
 
