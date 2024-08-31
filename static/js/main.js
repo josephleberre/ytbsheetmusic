@@ -146,7 +146,6 @@ function toggleFrameSelection(event) {
         }
     }
 
-    selectedFrameIds.sort()
     actualise_pdf()
 }
 
