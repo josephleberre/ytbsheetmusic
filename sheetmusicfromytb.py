@@ -199,7 +199,7 @@ def get_different_frames(threshold, list, color, crop):
             print(f"La vignette {i} a été sauvegardée.")
     return listframes
 
-def save_into_pdf(listframe, title, nbr, color, deformation, numerotation, settitle, imgcrop, change = False):
+def save_into_pdf(listframe, title, nbr, color, deformation, numerotation, settitle, imgcrop, change = False, black = 127):
     global folder_path
     pages = []
     if change == True:
@@ -210,7 +210,7 @@ def save_into_pdf(listframe, title, nbr, color, deformation, numerotation, setti
                 if color != 2:
                     img = cv.imread(filename, cv.IMREAD_GRAYSCALE)
                     if color == 0:
-                        _, img = cv.threshold(img, 127, 255, cv.THRESH_BINARY)
+                        _, img = cv.threshold(img, int(black), 255, cv.THRESH_BINARY)
                 else:
                     img = cv.imread(filename)
                 listframes.append(img)

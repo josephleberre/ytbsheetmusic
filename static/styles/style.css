@@ -483,17 +483,113 @@ img.frame.selected{
   [data-tooltip-length="fit"]:after {
     width: 100%; }
   
-  
-  
-  
-  /*css just to the example*/
-  .component--example{
-    margin-top:50px;
+/* Style général pour le slider */
+input[type="range"] {
+    appearance: none; /* Supprimer le style par défaut */
+    width: 100%; /* Prendre toute la largeur */
+    height: 10px; /* Hauteur de la barre */
+    background: linear-gradient(to right, #ee7752, #e73c7e) 0% 0% / var(--range-percent) 100% no-repeat white; /* Dégradé sur la partie gauche */
+    border-radius: 5px;
+    outline: none; /* Supprimer le contour par défaut */
+    -webkit-appearance: none; /* Nécessaire pour certains navigateurs */
+    position: relative;
+}
+
+/* Style pour la barre de progression (track) */
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: transparent; /* Fond transparent */
+    border-radius: 5px;
+}
+
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 5px;
+}
+
+input[type="range"]::-ms-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: transparent;
+    color: transparent;
+    border-radius: 5px;
+}
+
+/* Style pour le curseur (thumb) */
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e); /* Dégradé linéaire pour le curseur */
+    border: 2px solid white; /* Bordure blanche */
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    top: -5px; /* Ajuster la position pour être centré */
+    z-index: 3; /* Placer le curseur au-dessus */
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e);
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 3;
+}
+
+input[type="range"]::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e);
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* Conteneur pour le slider et le texte */
+.slidercontainer {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction:column; 
-  }
+    gap: 10px; /* Espace entre le slider et le numéro */
+    position: relative;
+}
+
+/* Style pour le numéro affiché à côté */
+.slidervalue {
+    font-weight: 600;
+    color: #444; /* Couleur du texte */
+    font-size: 16px;
+}
+
+/* Mise à jour du style en fonction de la valeur */
+input[type="range"] {
+    --range-percent: 50%;
+}
+
+input[type="range"] {
+    background-size: var(--range-percent) 100%; /* Mise à jour dynamique de la taille */
+}
+
+.slidervalue{
+    width:25px;
+}
+/*css just to the example*/
+.component--example{
+margin-top:50px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction:column; 
+}
 @media only screen and (max-width: 1400px) {
     div.flex.page_{
         flex-direction: column-reverse;

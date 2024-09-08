@@ -29,7 +29,7 @@ def generate(title, url, frequency, threshold, color, numberimg, numerotation, d
     listframes = sm.get_different_frames(threshold, frames_list, color, crop)
     yield "data: 80\n\n"
     yield f"frames: {len(listframes)}\n\n"
-    sm.save_into_pdf(listframes, title, numberimg, color, deformation, numerotation, settitle, imgcrop)
+    sm.save_into_pdf(listframes, title, numberimg, color, deformation, numerotation, settitle, imgcrop, False, 127)
     yield "data: 90\n\n"
     sm.extract_audio(title)
     yield "data: 100\n\n"
@@ -100,7 +100,9 @@ def change_pdf():
     numberimg = int(data.get("numberimg"))
     numerotation = data.get("numerotation")
     deformation = data.get("deformation")
-    sm.save_into_pdf(frames, title, numberimg, color, deformation, numerotation, settitle, cropper_value, True)
+    black = data.get("black")
+    print(black)
+    sm.save_into_pdf(frames, title, numberimg, color, deformation, numerotation, settitle, cropper_value, True, black)
     sm.extract_audio(title)
     return "PDF généré avec succès!", 200
 

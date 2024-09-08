@@ -24,6 +24,8 @@ const progressTask = document.getElementById('progress-task');
 const titleinput_ = document.getElementById('title_');
 const settitleinput_ = document.getElementById('settitle_');
 const colorinput_ = document.getElementById("color_")
+const bwThresholdDiv = document.getElementById('bwThreshold');
+const thresholdslider = document.getElementById('thresholdSlider')
 const numberimginput_ = document.getElementById("numberimg_")
 const numerotationinput_ = document.getElementById("numerotation_")
 const deformationinput_ = document.getElementById("deformation_")
@@ -85,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function changePage() {
     const pages = document.querySelectorAll('.page');
     pages.forEach(page => page.classList.toggle('active'));
+    toggleSlider()
     if(page == 1){
         titleinput_.value = titleinput.value
         settitleinput_.checked = settitleinput.checked
@@ -260,7 +263,8 @@ function actualise_pdf(){
         color: colorinput_.value,
         numberimg: numberimginput_.value,
         numerotation: numerotationinput_.checked,
-        deformation: deformationinput_.checked
+        deformation: deformationinput_.checked,
+        black: thresholdslider.value
     };
     
     xhr.send(JSON.stringify(data));
@@ -473,4 +477,21 @@ document.addEventListener('DOMContentLoaded', function () {
         rightInput: document.getElementById('cropRight_ech'),
         bottomInput: document.getElementById('cropBottom_ech')
     });
+});
+
+//SLIDER
+
+function toggleSlider() {
+    if (colorinput_.value == "0") {
+        bwThresholdDiv.style.display = 'block';
+    } else {
+        bwThresholdDiv.style.display = 'none';
+    }
+    actualise_pdf()
+}
+
+thresholdslider.addEventListener('input', function() {
+    var value = this.value;
+    this.style.setProperty('--range-percent', value/255*100 + '%');
+    document.getElementById('thresholdValue').textContent = value;
 });
